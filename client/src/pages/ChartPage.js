@@ -24,14 +24,6 @@ const ChartPage=observer(()=>{
     const height=500;
     const [diagramType, setDiagramType]=useState('Линейный график')
 
-    // useEffect(()=>{
-    //     fetchDataPrice({params: {xAxisField: 'date', yAxisField: 'price', products: 'яблоко'}}).then((data)=>{
-    //         setData(data['data'].map(item=>
-    //             ({x: item['date'], y: item['price']})
-    //         ))
-    //     })
-    // },[])
-
     return(
         <Container fluid className="">
             <Row>

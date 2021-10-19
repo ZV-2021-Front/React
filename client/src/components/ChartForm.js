@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {Container, DropdownButton, Dropdown, Form, Button} from 'react-bootstrap'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import { fetchColumns, fetchXY } from '../http/diagramAPI'
+import { isEqual } from '@antv/util'
 
 const ChartForm=({setDiagramTypeFunction, data, setData})=>{
     let [title, setTitle]=useState('Линейный график')
@@ -55,7 +56,6 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
         fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'яблоко'}}).then((data)=>{
             setData(data['data'].map(item=>
                 ({x: item[xAxisName], y: item[yAxisName]})
-                //({x: Object.keys(item)[0], y: Object.keys(item)[1]})
             ))
         })
     }
@@ -63,16 +63,18 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
         fetchColumns({params:{}}).then((data)=>{
             setFields(data['data'])
         })
-        dropDownFieldsXItems=[]
-        fields.map((field)=>{
-            dropDownFieldsXItems.push(
-                <Dropdown.Item onClick={()=>{
-                    setTitleX(field['field_ru']);
-                    setXAxisName(field['field']);
-                }}>field['field_ru'</Dropdown.Item> 
-            )
-        })
     }
+    useEffect(()=>{
+        fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'all'}}).then((data)=>{
+            setData(data['data'].map(item=>
+                ({x: item[xAxisName], y: item[yAxisName]})))
+        })
+    },[xAxisName, yAxisName])
+    useEffect(()=>{
+        fetchColumns({params:{}}).then((data)=>{
+            setFields(data['data'])
+        })
+    },[])
     const dropDown=
         <DropdownButton id="dropdown-basic-button" title={title}>
             <Dropdown.Item onClick={()=>{
@@ -120,8 +122,36 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
         </BootstrapTable>
     let dropDownFieldsXItems=[];   
     const dropDownFieldsX=
-    <DropdownButton id="dropdown-basic-button2" title={xAxisName}>
-        {dropDownFieldsXItems}
+    <DropdownButton id="dropdown-basic-button2" title={titleX}>
+    {
+        fields.map(field=>
+            (
+                <Dropdown.Item onClick={()=>{
+                    setTitleX(field['field_ru']);
+                    // setTimeout(()=>setXAxisName(field['field']), 1000)
+                    // setTimeout(()=>makeRequest(), 1000)
+                    setXAxisName(field['field']);
+                    //makeRequest();
+                }}>{field['field_ru']}</Dropdown.Item> 
+            )
+        )
+    }
+    </DropdownButton>
+    const dropDownFieldsY=
+    <DropdownButton id="dropdown-basic-button2" title={titleY}>
+    {
+        fields.map(field=>
+            (
+                <Dropdown.Item onClick={()=>{
+                    setTitleY(field['field_ru']);
+                    // setTimeout(()=>setYAxisName(field['field']), 1000)
+                    // setTimeout(()=>makeRequest(), 1000)
+                    setYAxisName(field['field']);
+                    //makeRequest();
+                }}>{field['field_ru']}</Dropdown.Item> 
+            )
+        )
+    }
     </DropdownButton>
     // <button onClick={fetchData}>Загрузить данные</button>
     return(
@@ -129,7 +159,7 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
             <h5>Выберите вид графика:</h5>
             {dropDown}
             <p/>
-            <Form>
+            {/* <Form>
                 <Form.Label>xAxisName</Form.Label>
                 <Form.Control type="text" onChange={(e)=>{setXAxisName(e.target.value)}}/>
                 <Form.Label>yAxisName</Form.Label>
@@ -139,10 +169,13 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
                 <p/>
                 <Button onClick={makeRequest}>Сделать запрос</Button>
                 <p/>
-            </Form>
+            </Form> */}
+            <h5>Поле Х</h5>
             {dropDownFieldsX}
-            <h5>Таблица значений</h5>
-            {bootstrapTable}
+            <h5>Поле У</h5>
+            {dropDownFieldsY}
+            {/* <h5>Таблица значений</h5>
+            {bootstrapTable} */}
         </div>
     );
 }
