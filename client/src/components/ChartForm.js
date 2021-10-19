@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import {Container, DropdownButton, Dropdown} from 'react-bootstrap'
+import {Container, DropdownButton, Dropdown, Form, Button} from 'react-bootstrap'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-import { fetchDataPrice } from '../http/diagramAPI'
+import { fetchColumns, fetchXY } from '../http/diagramAPI'
+import { isEqual } from '@antv/util'
 
 const ChartForm=({setDiagramTypeFunction, data, setData})=>{
     let [title, setTitle]=useState('Линейный график')
+    let[titleX, setTitleX]=useState('')
+    let[titleY, setTitleY]=useState('')
+    let [xAxisName, setXAxisName]=useState('x')
+    let [yAxisName, setYAxisName]=useState('y')
+    let [fields, setFields]=useState([])
     function refreshDiagrams(){
         setDiagramTypeFunction(' ')
         setTimeout(()=>setDiagramTypeFunction(dropDown.props.title), 1)
@@ -46,7 +52,29 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
     const selectRowProp = {
         mode: 'checkbox'
     };
-
+    function makeRequest(){
+        fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'яблоко'}}).then((data)=>{
+            setData(data['data'].map(item=>
+                ({x: item[xAxisName], y: item[yAxisName]})
+            ))
+        })
+    }
+    function makeFieldRequest(){
+        fetchColumns({params:{}}).then((data)=>{
+            setFields(data['data'])
+        })
+    }
+    useEffect(()=>{
+        fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'all'}}).then((data)=>{
+            setData(data['data'].map(item=>
+                ({x: item[xAxisName], y: item[yAxisName]})))
+        })
+    },[xAxisName, yAxisName])
+    useEffect(()=>{
+        fetchColumns({params:{}}).then((data)=>{
+            setFields(data['data'])
+        })
+    },[])
     const dropDown=
         <DropdownButton id="dropdown-basic-button" title={title}>
             <Dropdown.Item onClick={()=>{
@@ -92,15 +120,62 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
             <TableHeaderColumn dataField='x'>Название</TableHeaderColumn>
             <TableHeaderColumn dataField='y'>Значение</TableHeaderColumn>
         </BootstrapTable>
-
+    let dropDownFieldsXItems=[];   
+    const dropDownFieldsX=
+    <DropdownButton id="dropdown-basic-button2" title={titleX}>
+    {
+        fields.map(field=>
+            (
+                <Dropdown.Item onClick={()=>{
+                    setTitleX(field['field_ru']);
+                    // setTimeout(()=>setXAxisName(field['field']), 1000)
+                    // setTimeout(()=>makeRequest(), 1000)
+                    setXAxisName(field['field']);
+                    //makeRequest();
+                }}>{field['field_ru']}</Dropdown.Item> 
+            )
+        )
+    }
+    </DropdownButton>
+    const dropDownFieldsY=
+    <DropdownButton id="dropdown-basic-button2" title={titleY}>
+    {
+        fields.map(field=>
+            (
+                <Dropdown.Item onClick={()=>{
+                    setTitleY(field['field_ru']);
+                    // setTimeout(()=>setYAxisName(field['field']), 1000)
+                    // setTimeout(()=>makeRequest(), 1000)
+                    setYAxisName(field['field']);
+                    //makeRequest();
+                }}>{field['field_ru']}</Dropdown.Item> 
+            )
+        )
+    }
+    </DropdownButton>
     // <button onClick={fetchData}>Загрузить данные</button>
     return(
         <div>
             <h5>Выберите вид графика:</h5>
             {dropDown}
             <p/>
-            <h5>Таблица значений</h5>
-            {bootstrapTable}
+            {/* <Form>
+                <Form.Label>xAxisName</Form.Label>
+                <Form.Control type="text" onChange={(e)=>{setXAxisName(e.target.value)}}/>
+                <Form.Label>yAxisName</Form.Label>
+                <Form.Control type="text" onChange={(e)=>{setYAxisName(e.target.value)}}/>
+                <p/>
+                <Button onClick={makeFieldRequest}>Вызвать поля</Button>
+                <p/>
+                <Button onClick={makeRequest}>Сделать запрос</Button>
+                <p/>
+            </Form> */}
+            <h5>Поле Х</h5>
+            {dropDownFieldsX}
+            <h5>Поле У</h5>
+            {dropDownFieldsY}
+            {/* <h5>Таблица значений</h5>
+            {bootstrapTable} */}
         </div>
     );
 }

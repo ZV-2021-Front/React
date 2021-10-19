@@ -9,15 +9,6 @@ import { fetchDataPrice } from '../http/diagramAPI'
 
 const colors=['#8884d8',"#83a6ed","#8dd1e1","#82ca9d","#a4de6c","#d0ed57"];
 
-// async function get_request() {
-
-//     let json=null;
-//     await fetch('http://185.185.69.174/api/linear?products=all&yAxisField=price&xAxisField=date').then((response)=>{
-//         return response.json();
-//     }).then((data)=>{json=data})
-//     return json;
-
-// }
 const ChartPage=observer(()=>{
     const[dataInfo, setDataInfo]=useState(
         {id: 1, xAxisName: 'year', yAxisName: 'value', zAxisName: 'zValue'}
@@ -32,16 +23,7 @@ const ChartPage=observer(()=>{
     const [data, setData]=useState([])
     const height=500;
     const [diagramType, setDiagramType]=useState('Линейный график')
-    // const Json=get_request()
-    // const Jdata=Json['data']
-    // console.log(Jdata)
-    useEffect(()=>{
-        fetchDataPrice().then((data)=>{
-            setData(data['data'].map(item=>
-                ({x: item['date'], y: item['price']})
-            ))
-        })
-    },[])
+
     return(
         <Container fluid className="">
             <Row>
