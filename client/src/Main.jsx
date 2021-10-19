@@ -16,11 +16,11 @@ import {
 class Main extends React.Component {
   render() {
     const data_circle = [
-      { item: '', count: 40, percent: 0.4 },
-      { item: '事例二', count: 21, percent: 0.21 },
-      { item: '事例三', count: 17, percent: 0.17 },
-      { item: '事例四xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYYYY', count: 13, percent: 0.13 },
-      { item: '事例五', count: 9, percent: 0.09 },
+      { item: '0', count: 40, percent: 0.4 },
+      { item: '1', count: 21, percent: 0.21 },
+      { item: '2', count: 17, percent: 0.17 },
+      { item: '3', count: 13, percent: 0.13 },
+      { item: '4', count: 9, percent: 0.09 },
     ];
 
     const cols_circle = {
@@ -32,40 +32,38 @@ class Main extends React.Component {
       },
     };
     const data_hist = [
-      { year: "1951 年", sales: 38 },
-      { year: "1952 年", sales: 52 },
-      { year: "1956 年", sales: 61 },
-      { year: "1957 年", sales: 45 },
-      { year: "1958 年", sales: 48 },
-      { year: "1959 年", sales: 38 },
-      { year: "1960 年", sales: 38 },
-      { year: "1962 年", sales: 38 },
+      { year: "1951", sales: 38 },
+      { year: "1952", sales: 52 },
+      { year: "1956", sales: 61 },
+      { year: "1957", sales: 45 },
+      { year: "1958", sales: 48 },
+      { year: "1959", sales: 38 },
+      { year: "1960", sales: 38 },
+      { year: "1962", sales: 38 },
     ];
 
     const data = [
       {
-        country: "中国",
+        country: "1",
         population: 131744
       },
       {
-        country: "印度",
+        country: "2",
         population: 104970
       },
       {
-        country: "美国",
+        country: "3",
         population: 29034
       },
       {
-        country: "印尼",
+        country: "4",
         population: 23489
       },
       {
-        country: "巴西",
+        country: "5",
         population: 18203
       }
     ];
-
-    // 数据源
     const data_4 = [
       { year: '1991', value: 3, marked: false },
       { year: '1992', value: 4, marked: true },
@@ -168,7 +166,7 @@ class Main extends React.Component {
             </div>
             <div className="info__container-diagrams">
               <Chart height={250} data={data_circle} scale={cols_circle} autoFit onIntervalClick={e => {
-                const states = e.target.cfg.element.getStates();// 如果是选中，值为['selected'];取消选中，值为[]
+                const states = e.target.cfg.element.getStates();
               }}>
                 <Coordinate type="theta" radius={0.75} />
                 <Tooltip showTitle={false} />
@@ -182,7 +180,7 @@ class Main extends React.Component {
                     stroke: '#fff',
                   }}
                   label={['count', {
-                    // label 太长自动截断
+                    
                     layout: { type: 'limit-in-plot', cfg: { action: 'ellipsis' } },
                     content: (data_circle) => {
                       return `${data_circle.item}: ${data_circle.percent * 100}%`;
