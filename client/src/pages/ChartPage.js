@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Diagram from '../components/Diagram'
 import ChartForm from '../components/ChartForm'
-import { fetchDataPrice } from '../http/diagramAPI'
 
 const colors=['#8884d8',"#83a6ed","#8dd1e1","#82ca9d","#a4de6c","#d0ed57"];
 
