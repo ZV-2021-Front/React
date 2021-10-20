@@ -1,7 +1,7 @@
 import React from 'react'
 import {Chart, Point, Legend, Axis } from 'bizcharts';
 
-export const BubbleChart = ({data, colors, height, dataInfo}) => {
+export const BubbleChart = ({data, color, height, dataInfo}) => {
     return (
         <Chart
             height={400}
@@ -13,7 +13,7 @@ export const BubbleChart = ({data, colors, height, dataInfo}) => {
             <Legend name={'zAxisName'} visible={false} />
             <Point
                 position="x*y"
-                color={ data['x']}
+                color={ color}
                 // color={["continent", val => {
                 //     return colorMap[val];
                 // }]}
@@ -25,7 +25,7 @@ export const BubbleChart = ({data, colors, height, dataInfo}) => {
                     strokeOpacity: 1,
                     fillOpacity: 0.3,
                     opacity: 0.65,
-                    stroke: data['x'],
+                    stroke: color,
                 }}
             />
             <Axis name={dataInfo['xAxisName']} grid={{

@@ -9,7 +9,7 @@ import {
 	getTheme
 } from 'bizcharts';
 
-export const PieChart = ({data, colors, height, dataInfo}) => {
+export const PieChart = ({data, color, height, dataInfo}) => {
     return (
         <Chart
             height={height} 

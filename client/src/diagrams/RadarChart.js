@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Chart,Point,Line,Axis,Area,Tooltip,Coordinate} from 'bizcharts';
 import DataSet from '@antv/data-set';
 
-const RadarChart=({data, colors, height, dataInfo})=>{
+const RadarChart=({data, color, height, dataInfo})=>{
 
     const { DataView } = DataSet;
     const dv = new DataView().source(data);
@@ -29,17 +29,17 @@ const RadarChart=({data, colors, height, dataInfo})=>{
             <Tooltip shared />
             <Point
                 position="x*score"
-                color="x"
+                color={color}
                 shape="circle"
             />
             <Line
                 position="x*score"
-                color="x"
+                color={color}
                 size="2"
             />
             <Area
                 position="x*score"
-                color="user"
+                color={color}
             />
             <Axis name="score" grid={{ line: {type: 'line'}}} />
             <Axis name="y" line={false} />

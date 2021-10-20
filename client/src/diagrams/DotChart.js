@@ -1,7 +1,7 @@
 import React from 'react'
 import {Chart, Point} from 'bizcharts';
 
-const DotChart=({data, colors, height, dataInfo})=>{
+const DotChart=({data, color, height, dataInfo})=>{
     
     return(
         <Chart
@@ -12,7 +12,7 @@ const DotChart=({data, colors, height, dataInfo})=>{
 		>
 			<Point
 				position="x*y"
-				color="x"
+				color={color}
 				shape="circle"
 				style={{
 					fillOpacity: 0.85

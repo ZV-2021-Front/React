@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import {Container, DropdownButton, Dropdown, Form, Button} from 'react-bootstrap'
 import { fetchColumns, fetchXY } from '../http/diagramAPI'
-import { DatePicker} from 'antd';
+import { DatePicker, PageHeader} from 'antd';
 import moment from 'moment';
+import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
 const { RangePicker } = DatePicker;
 
-const ChartForm=({setDiagramTypeFunction, data, setData})=>{
+const ChartForm=({setDiagramTypeFunction, data, setData, setcolor, color})=>{
+    moment.locale('ru')
+
     let [title, setTitle]=useState('Линейный график')
     let[titleX, setTitleX]=useState('')
     let[titleY, setTitleY]=useState('')
@@ -107,6 +110,8 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
         </DropdownButton>
     return(
         <div>
+            <PageHeader title='Окно диаграмм' onBack={()=>{window.history.back()}} style={{padding: '0'}} />
+            <p/>
             <h5>Выберите вид графика:</h5>
             {dropDown}
             <p/>
@@ -116,12 +121,22 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
             {dropDownFieldsY}
             {/* <DataTable data={data} setData={setData} setDiagramTypeFunction={setDiagramTypeFunction} diagramType={dropDown.props.title}/> */}
             <p/>
-            <Form.Check 
-                type="checkbox"
-                label="Сортировать по дате"
-                value={isDatePickerEnable}
-                onChange={()=>{setIsDatePickerEnable(!isDatePickerEnable)}}
+            <h5>Цвет диаграммы</h5>
+            <Form.Control
+                type="color"
+                value={color}
+                onChange={(e)=>{setcolor(e.target.value)}}
+                style={{
+                    width: '50px',
+                    height: '40px',
+                    padding: '5px'
+                }}
             />
+            <p/>
+            <Form.Check type="checkbox">
+                <Form.Check.Input type="checkbox" checked={isDatePickerEnable} onChange={()=>{setIsDatePickerEnable(!isDatePickerEnable)}} />
+                <FormCheckLabel onClick={()=>{setIsDatePickerEnable(!isDatePickerEnable)}} >Сортировать по дате</FormCheckLabel>
+            </Form.Check>
             {isDatePickerEnable ? <RangePicker value={[startDate, endDate]} onChange={(dates)=>{setStartDate(dates[0]); setEndDate(dates[1])}} /> : null}
         </div>
     );

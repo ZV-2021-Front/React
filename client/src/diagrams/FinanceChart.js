@@ -2,7 +2,7 @@ import React from 'react'
 import { Chart, Point, View, Tooltip, Schema, Axis, Interval, } from 'bizcharts';
 import {finData} from '../data/FinData'
 
-export const FinanceChart = ({data, colors, height, dataInfo}) => {
+export const FinanceChart = ({data, color, height, dataInfo}) => {
     const newData=[]
     finData.map((item)=>{
         let trend=(item.start <= item.end) ? 'Red' : 'Green'

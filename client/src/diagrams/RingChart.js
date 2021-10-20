@@ -1,7 +1,7 @@
 import React from 'react'
 import { DonutChart } from "bizcharts";
 
-function RingChart({data, colors, height, dataInfo}) {
+function RingChart({data, color, height, dataInfo}) {
     return (
         <DonutChart
             data={data}

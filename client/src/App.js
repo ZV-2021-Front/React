@@ -3,8 +3,11 @@ import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min
 import 'antd/dist/antd.css';
 import { BrowserRouter } from 'react-router-dom'
 import AppRouter from './components/AppRouter'
+import moment from 'moment';
+import 'moment/locale/ru' 
 
 function App() {
+  moment.locale('ru')
   return (
     <BrowserRouter>
             <AppRouter/>

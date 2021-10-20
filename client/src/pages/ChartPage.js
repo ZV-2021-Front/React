@@ -4,10 +4,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Diagram from '../components/Diagram'
 import ChartForm from '../components/ChartForm'
-
-const colors=['#8884d8',"#83a6ed","#8dd1e1","#82ca9d","#a4de6c","#d0ed57"];
+import moment from 'moment'
 
 const ChartPage=()=>{
+    moment.locale('ru')
     const[dataInfo, setDataInfo]=useState(
         {id: 1, xAxisName: 'year', yAxisName: 'value', zAxisName: 'zValue'}
     )
@@ -18,7 +18,8 @@ const ChartPage=()=>{
     // {id: 5, x: '1995', y: 7, z: 10},
     // {id: 6, x: '1996', y: 4, z: 10},
     // {id: 7, x: '1997', y: 5, z: 10},
-    const [data, setData]=useState([])
+    const [data, setdata]=useState([])
+    const [color, setcolor] = useState('#348EC5');
     const height=500;
     const [diagramType, setDiagramType]=useState('Линейный график')
 
@@ -26,10 +27,10 @@ const ChartPage=()=>{
         <Container fluid className="">
             <Row>
                 <Col className="p-5 border border-dark" style={{width: '49%'}}>
-                    <ChartForm setDiagramTypeFunction={setDiagramType} data={data} setData={setData}/>
+                    <ChartForm setDiagramTypeFunction={setDiagramType} data={data} setData={setdata} setcolor={setcolor} color={color}/>
                 </Col>
                 <Col className="p-5 border border-dark"  style={{width: '49%'}}>
-                    <Diagram data={data} diagramType={diagramType} colors={colors} dataInfo={dataInfo} height={height}/>
+                    <Diagram data={data} diagramType={diagramType} color={color} dataInfo={dataInfo} height={height}/>
                 </Col>
             </Row>
         </Container>

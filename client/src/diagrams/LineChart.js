@@ -1,7 +1,7 @@
 import React from 'react'
 import { Chart, Line, Point, Tooltip,getTheme } from "bizcharts";
 
-const LineChart=({data, colors, height, dataInfo})=>{
+const LineChart=({data, color, height, dataInfo})=>{
     
 
     return(
@@ -13,8 +13,8 @@ const LineChart=({data, colors, height, dataInfo})=>{
 				scale={{ y: { min: 0, alias: dataInfo['yAxisName'], type: 'linear-strict' }, x: { range: [0, 1] } }}
 			>
 
-				<Line position="x*y" color={colors[1]}/>
-				<Point position="x*y" color={colors[1]}/>
+				<Line position="x*y" color={color}/>
+				<Point position="x*y" color={color}/>
 				<Tooltip showCrosshairs />
 		</Chart>
     );
