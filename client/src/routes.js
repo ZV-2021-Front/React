@@ -1,4 +1,4 @@
-import Main from './Main'
+import Main from './pages/Main'
 import ChartPage from './pages/ChartPage'
 
 export const Routes = [

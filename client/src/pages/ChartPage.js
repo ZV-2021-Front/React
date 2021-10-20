@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,7 +7,7 @@ import ChartForm from '../components/ChartForm'
 
 const colors=['#8884d8',"#83a6ed","#8dd1e1","#82ca9d","#a4de6c","#d0ed57"];
 
-const ChartPage=observer(()=>{
+const ChartPage=()=>{
     const[dataInfo, setDataInfo]=useState(
         {id: 1, xAxisName: 'year', yAxisName: 'value', zAxisName: 'zValue'}
     )
@@ -35,5 +34,5 @@ const ChartPage=observer(()=>{
             </Row>
         </Container>
     );
-})
+}
 export default ChartPage;
