@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import {Container, DropdownButton, Dropdown, Form, Button} from 'react-bootstrap'
 import { fetchColumns, fetchXY } from '../http/diagramAPI'
-import { DataTable } from './DataTable'
+import { DatePicker} from 'antd';
+import moment from 'moment';
+const { RangePicker } = DatePicker;
 
 const ChartForm=({setDiagramTypeFunction, data, setData})=>{
     let [title, setTitle]=useState('Линейный график')
@@ -10,13 +12,28 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
     let [xAxisName, setXAxisName]=useState('x')
     let [yAxisName, setYAxisName]=useState('y')
     let [fields, setFields]=useState([])
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    const[isDatePickerEnable, setIsDatePickerEnable]=useState(false);
+
+    function formatDateForPostgres(){
+        if(!isDatePickerEnable){
+            return 'all'
+        }
+        if(startDate==null || endDate==null){
+            return 'all'
+        }
+        else{
+            return startDate.format('YYYY-MM-DD')+','+endDate.format('YYYY-MM-DD')
+        }
+    }
     
     useEffect(()=>{
-        fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'all'}}).then((data)=>{
+        fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'all', date: formatDateForPostgres() }}).then((data)=>{
             setData(data['data'].map(item=>
                 ({x: item[xAxisName], y: item[yAxisName]})))
         })
-    },[xAxisName, yAxisName])
+    },[xAxisName, yAxisName, isDatePickerEnable, startDate, endDate])
     useEffect(()=>{
         fetchColumns({params:{}}).then((data)=>{
             setFields(data['data'])
@@ -82,10 +99,7 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
                 (
                     <Dropdown.Item onClick={()=>{
                         setTitleY(field['field_ru']);
-                        // setTimeout(()=>setYAxisName(field['field']), 1000)
-                        // setTimeout(()=>makeRequest(), 1000)
                         setYAxisName(field['field']);
-                        //makeRequest();
                     }}>{field['field_ru']}</Dropdown.Item> 
                 )
             )
@@ -101,6 +115,14 @@ const ChartForm=({setDiagramTypeFunction, data, setData})=>{
             <h5>Поле У</h5>
             {dropDownFieldsY}
             {/* <DataTable data={data} setData={setData} setDiagramTypeFunction={setDiagramTypeFunction} diagramType={dropDown.props.title}/> */}
+            <p/>
+            <Form.Check 
+                type="checkbox"
+                label="Сортировать по дате"
+                value={isDatePickerEnable}
+                onChange={()=>{setIsDatePickerEnable(!isDatePickerEnable)}}
+            />
+            {isDatePickerEnable ? <RangePicker value={[startDate, endDate]} onChange={(dates)=>{setStartDate(dates[0]); setEndDate(dates[1])}} /> : null}
         </div>
     );
 }
