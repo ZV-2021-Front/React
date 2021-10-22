@@ -1,3 +1,8 @@
+.mapboxgl-ctrl-bottom-right{
+  display: none;
+}
+
+
 @font-face {
     font-family: 'icomoon';
     src:  url('./fonts/icomoon.eot?k66gfv');

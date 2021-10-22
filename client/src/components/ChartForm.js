@@ -6,10 +6,10 @@ import moment from 'moment';
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
 const { RangePicker } = DatePicker;
 
-const ChartForm=({setDiagramTypeFunction, data, setData, setcolor, color})=>{
+const ChartForm=({diagramType, setDiagramTypeFunction, data, setData, setcolor, color})=>{
     moment.locale('ru')
 
-    let [title, setTitle]=useState('Линейный график')
+    let [title, setTitle]=useState(diagramType)
     let[titleX, setTitleX]=useState('')
     let[titleY, setTitleY]=useState('')
     let [xAxisName, setXAxisName]=useState('x')

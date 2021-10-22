@@ -21,15 +21,15 @@ const ChartPage=()=>{
     const [data, setdata]=useState([])
     const [color, setcolor] = useState('#348EC5');
     const height=500;
-    const [diagramType, setDiagramType]=useState('Линейный график')
+    const [diagramType, setDiagramType]=useState('Географическая карта')
 
     return(
         <Container fluid className="">
             <Row>
-                <Col className="p-5 border border-dark" style={{width: '49%'}}>
-                    <ChartForm setDiagramTypeFunction={setDiagramType} data={data} setData={setdata} setcolor={setcolor} color={color}/>
+                <Col className="p-5 border border-dark" xl={4}>
+                    <ChartForm diagramType={diagramType} setDiagramTypeFunction={setDiagramType} data={data} setData={setdata} setcolor={setcolor} color={color}/>
                 </Col>
-                <Col className="p-5 border border-dark"  style={{width: '49%'}}>
+                <Col className="p-0 border border-dark"  xl={8}>
                     <Diagram data={data} diagramType={diagramType} color={color} dataInfo={dataInfo} height={height}/>
                 </Col>
             </Row>

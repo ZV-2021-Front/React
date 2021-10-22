@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import AppRouter from './components/AppRouter'
 import moment from 'moment';
 import 'moment/locale/ru' 
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 function App() {
   moment.locale('ru')

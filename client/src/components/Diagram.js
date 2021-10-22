@@ -7,6 +7,7 @@ import LineChart from '../diagrams/LineChart';
 import { PieChart } from '../diagrams/PieChart';
 import RadarChart from '../diagrams/RadarChart';
 import RingChart from '../diagrams/RingChart';
+import MapGL from './MapGL';
 
 const Diagram=({data, diagramType, color, dataInfo, height})=>{
     const[st,setSt]=useState(Math.random())
@@ -52,7 +53,7 @@ const Diagram=({data, diagramType, color, dataInfo, height})=>{
     }
     if(diagramType=='Географическая карта'){
         return(
-            <div/>
+            <MapGL />
         );
     }
     return(
