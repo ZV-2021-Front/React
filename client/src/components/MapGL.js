@@ -3,8 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import mapData from '../data/MapValues.json'
 import json from '../data/geo.json'
 import Legend from './Legend'
-// @ts-ignore
-//eslint-disable-next-line import/no-webpack-loader-syntax
+
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2lyaWxsdGhlYXJjaGlrIiwiYSI6ImNrdjBxZWo1dzA4eDcydnA3djF3N2Q2Zm8ifQ.kVlHsV6U8Y9tOeDfeQ2Csg';
@@ -194,7 +193,7 @@ export default function MapGL() {
                 </div>
             </div>
             <div ref={mapContainer} className="map-container" style={{
-                height: '100vh'
+                height: '99.8vh'
             }} />
             <Legend active={active} stops={active.stops} />
         </div>

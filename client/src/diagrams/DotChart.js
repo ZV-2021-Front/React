@@ -1,5 +1,5 @@
 import React from 'react'
-import {Chart, Point} from 'bizcharts';
+import {Chart, Point, Axis} from 'bizcharts';
 
 const DotChart=({data, color, height, dataInfo})=>{
     
@@ -8,8 +8,11 @@ const DotChart=({data, color, height, dataInfo})=>{
 			height={height}
 			data={data}
 			autoFit
-			interactions={['legend-highlight', 'brush']}
+			scale={{x: {alias: dataInfo['xAxisName']}, y: {alias: dataInfo['yAxisName']}} }
+			padding={50}
 		>
+			<Axis name="x" visible={true} title />
+			<Axis name="y" visible={true} title />
 			<Point
 				position="x*y"
 				color={color}

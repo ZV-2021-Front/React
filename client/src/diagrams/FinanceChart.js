@@ -4,7 +4,7 @@ import {finData} from '../data/FinData'
 
 export const FinanceChart = ({data, color, height, dataInfo}) => {
     const newData=[]
-    finData.map((item)=>{
+    data.map((item)=>{
         let trend=(item.start <= item.end) ? 'Red' : 'Green'
         newData.push({
             time: item["time"],
@@ -12,8 +12,8 @@ export const FinanceChart = ({data, color, height, dataInfo}) => {
             max: item["max"],
             min: item["min"],
             end: item["end"],
-            volumn: item["volumn"],
-            money: item["money"],
+            // volumn: item["volumn"],
+            // money: item["money"],
             trend: trend,
             range: [item.start, item.end, item.max, item.min]
         })

@@ -1,11 +1,12 @@
 import Main from './pages/Main'
 import ChartPage from './pages/ChartPage'
 import { TestPage } from './pages/TestPage'
+import { DashboardPage } from './pages/DashboardPage'
 
 export const Routes = [
     {
         path: '/',
-        Component: Main
+        Component: DashboardPage
     },
     {
         path: '/More',
@@ -14,5 +15,9 @@ export const Routes = [
     {
         path: '/Test',
         Component: TestPage
+    },
+    {
+        path: '/Diagrams/:id',
+        Component: ChartPage
     }
 ]

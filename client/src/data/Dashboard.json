@@ -1,0 +1,5 @@
+[
+    {"id": 1, "name": "Первая диаграмма", "source": "data1.json", "created": "26-10-2021 13:00:00", "config":{
+        "selectedDiagram": "Линейный график"
+    }}
+]
