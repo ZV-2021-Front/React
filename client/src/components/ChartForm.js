@@ -7,9 +7,8 @@ import Cases from '../data/Cases.json'
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
 import { MenuCases } from './MenuCases';
 import { ConfigDiagram } from './ConfigDiagram';
-import productionDataSet from '../data/productionDataSet.json'
 
-const ChartForm=({diagramType, setDiagramTypeFunction, data, setData, setcolors, colors, dataInfo, setDataInfo})=>{
+const ChartForm=({diagramType, setDiagramType, data, setData, serverData, setcolors, colors, dataInfo, setDataInfo, props})=>{
     moment.locale('ru')
 
     let [xAxisName, setXAxisName]=useState([])
@@ -20,6 +19,7 @@ const ChartForm=({diagramType, setDiagramTypeFunction, data, setData, setcolors,
     const [filterDate, setfilterDate] = useState('all')
 
     const configDiagramProps={
+        ...props,
         fields,
         setfilterDate,
         colors,
@@ -32,30 +32,41 @@ const ChartForm=({diagramType, setDiagramTypeFunction, data, setData, setcolors,
         setYAxisName,
         setXAxisNameRu,        
         setYAxisNameRu,
-        setDiagramTypeFunction,
-        diagramType
+        setDiagramType,
+        diagramType,
     }
 
     useEffect(() => {
-        let newFields=[]
-        productionDataSet.columns.map((item)=>{
-            newFields.push({name: item})
-        })
-        productionDataSet.columnsRu.map((item, index)=>{
-            newFields[index].nameRu=item
-        })
-        setFields(newFields)
-    }, [])
+        if(serverData[0]){
+            setFields(Object.keys(serverData[0]))
+        }
+    }, [serverData]);
+
+    // useEffect(() => {
+    //     let newFields=[]
+    //     productionDataSet.columns.map((item)=>{
+    //         newFields.push({name: item})
+    //     })
+    //     productionDataSet.columnsRu.map((item, index)=>{
+    //         newFields[index].nameRu=item
+    //     })
+    //     setFields(newFields)
+    // }, [])
 
     useEffect(()=>{
-        setDataInfo({xAxisName: xAxisNameRu, yAxisName: yAxisName, yAxisNameRu: yAxisNameRu})
+        // setDataInfo({xAxisName: xAxisNameRu, yAxisName: yAxisName, yAxisNameRu: yAxisNameRu})
+        setDataInfo({xAxisName: xAxisName, yAxisName: yAxisName})
         if(diagramType=='Биржевая диаграмма'){
             fetchFinance().then((data)=>{
                 setData(data['data'])
             })
             return
         }
-        else{
+        else if(diagramType=='Географическая карта') {
+            setData(serverData)
+            return
+        }
+        else {
             // fetchXY({params: {xAxisField: xAxisName, yAxisField: yAxisName, products: 'all', date: filterDate }}).then((data)=>{
             //     setData(data['data'].map(item=>
             //         ({x: item[xAxisName], y: item[yAxisName]})))
@@ -73,24 +84,57 @@ const ChartForm=({diagramType, setDiagramTypeFunction, data, setData, setcolors,
             //     })
             //     return newitem
             // }))
+
             let newData=[]
-            productionDataSet['data'].map(item=>{
-                yAxisName.map((yAxisItem)=>{
-                    let newitem={x: item[xAxisName], type: yAxisItem}
-                    let y=0;
-                    if(item[yAxisItem]!=undefined){
-                        y=item[yAxisItem].split(' ')[0]
-                        y=y.replaceAll('%', '')
-                        y=parseInt(y, 10)
-                    }
-                    newitem.y=y
+            serverData.map(item=>{
+                if(diagramType=='Лепестковая диаграмма'){
+
+                    let newitem={x: item[xAxisName]}
+                    yAxisName.map((yAxisItem)=>{
+                        newitem[yAxisItem]=0;
+                        if(item[yAxisItem]!=undefined){
+                            newitem[yAxisItem]=item[yAxisItem].toString().split(' ')[0].replaceAll('%', '')
+                            newitem[yAxisItem]=parseInt(newitem[yAxisItem], 10)
+                        }
+                    })
                     newData.push(newitem)
-                })
+                }
+                else{
+                    yAxisName.map((yAxisItem)=>{
+                        let newitem={x: item[xAxisName], type: yAxisItem}
+                        let y=0;
+                        if(item[yAxisItem]!=undefined){
+                            y=item[yAxisItem].toString().split(' ')[0]
+                            y=y.replaceAll('%', '')
+                            y=parseInt(y, 10)
+                        }
+                        newitem.y=y
+                        newData.push(newitem)
+                    })
+                }
+
             })
+            if(props.groupDataByX){
+                let groupedData=[]
+                newData.map(item=>{
+                    let findedItem=groupedData.find(findItem=>findItem.x==item.x && findItem.type==item.type)
+                    if(findedItem!=undefined && diagramType=='Лепестковая диаграмма'){
+                        yAxisName.map((yAxisItem)=>{
+                            findedItem[yAxisItem] += item[yAxisItem];
+                        })
+                    } else if(findedItem!=undefined){
+                        findedItem.y += item.y;
+                    }
+                    else{
+                       groupedData.push(item);
+                    }
+                })
+                newData=groupedData
+            }
             setData(newData)
 
         }
-    },[xAxisName, yAxisName, filterDate, diagramType])
+    },[xAxisName, yAxisName, filterDate, diagramType, props.groupDataByX])
     // useEffect(()=>{
     //     fetchColumns({params:{}}).then((data)=>{
     //         setFields(data['data'])

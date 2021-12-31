@@ -1,0 +1,52 @@
+body {
+  font-family: Montserrat, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f6f8fa;
+}
+
+.header {
+  &-logo {
+    color: #5285F2;
+  }
+  &-search-icon {
+    cursor: default;
+  }
+}
+
+.card {
+  width: 19rem;
+  border-radius: .2rem .2rem .5rem .2rem;
+  &-title {
+    color: var(--bs-gray-600);
+    min-height: 3.2rem;
+  }
+  &-preview {
+    background: var(--bs-gray-300); 
+    height: 12rem;
+  }
+  &-details {
+    color: var(--bs-gray-600);
+    font-size: .7rem;
+    &-btn {
+      border-radius: 1rem 0 .5rem 0;
+      background-color: #5285F2;
+      
+    }
+  }
+  &-edit {
+    transition: all .5s ease-in-out;
+    position: relative;
+    .card-delete {
+      display: block;
+    }
+  }
+  &-delete {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.momentumcharts-success-alert {
+  z-index: 111;
+}

@@ -8,7 +8,7 @@ const Legend = (props) => {
           className="mr6 round-full w12 h12 inline-block align-middle"
           style={{ backgroundColor: stop[1] }}
         />
-        <span>{`${stop[0].toLocaleString()}`}</span>
+        <span>{`${stop[0]?.toLocaleString()}`}</span>
       </div>
     );
   };
@@ -17,7 +17,7 @@ const Legend = (props) => {
     <>
       <div className="bg-white absolute bottom right mr12 mb24 py12 px12 shadow-darken10 round z1 wmax180">
         <div className="mb6">
-          <h2 className="txt-bold txt-s block">{props.active.description}</h2>
+          <h2 className="txt-bold txt-s block">{props.description}</h2>
           {/* <p className="txt-s color-gray">{props.active.description}</p> */}
         </div>
         {props.stops.map(renderLegendKeys)}

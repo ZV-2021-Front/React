@@ -1,0 +1,5 @@
+[
+    {"id": 1, "coordinates": [46.024329, 51.538175], "name": "ДТП 1", "description": ""},
+    {"id": 2, "coordinates": [46.015647, 51.546041], "name": "ДТП 2", "description": ""},
+    {"id": 3, "coordinates": [46.017227, 51.526211], "name": "ДТП 3", "description": ""}
+]

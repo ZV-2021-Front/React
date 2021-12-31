@@ -4,7 +4,7 @@ import {Chart, Point, Legend, Axis } from 'bizcharts';
 export const BubbleChart = ({data, color, height, dataInfo}) => {
     return (
         <Chart
-            height={400}
+            height={height}
             data={data}
             autoFit
             //scale={scale}

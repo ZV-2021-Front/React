@@ -7,6 +7,7 @@ import ChartForm from '../components/ChartForm'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import Dashboard from '../data/Dashboard.json'
+import { selectOneCard } from '../http/diagramAPI'
 
 const ChartPage=()=>{
     moment.locale('ru')
@@ -21,26 +22,37 @@ const ChartPage=()=>{
     // {id: 6, x: '1996', y: 4, z: 10},
     // {id: 7, x: '1997', y: 5, z: 10},
     const [data, setdata]=useState([])
+    const [serverData, setserverData] = useState([]);
     const [colors, setcolors] = useState(['#348EC5']);
-    const height=500;
+    const height=700;
     const [diagramType, setDiagramType]=useState()
-    let currentDashboard=null;
-    // const [Dashboard, setDashboard] = useState(JSON.parse(fs.readFileSync("../data/Dashboard.json")))
+    const [mapConfig, setmapConfig] = useState({mapBackground: 'Улицы', colorStops: [[0, '#000']] });
+    const [barChartStack, setbarChartStack] = useState(false);
+    const [groupDataByX, setgroupDataByX] = useState(false);
 
     const {id}=useParams()
     useEffect(() => {
-        currentDashboard=Dashboard.find((item)=>item.id==id)
-        setDiagramType(currentDashboard.config.selectedDiagram)
+        selectOneCard(id).then(response=>{
+            setserverData(JSON.parse(response.data.replace('\\', '')).data)
+        })
     }, [])
+
+    useEffect(() => {
+        let oldDiagramType=diagramType
+        setDiagramType('')
+        setTimeout(()=>{
+            setDiagramType(oldDiagramType)
+        }, 10)
+    }, [groupDataByX, barChartStack]);
 
     return(
         <Container fluid className="">
             <Row>
-                <Col className="p-5 border border-dark col-xl-6 col-xxl-4"> 
-                    <ChartForm diagramType={diagramType} setDiagramTypeFunction={setDiagramType} data={data} setData={setdata} setcolors={setcolors} colors={colors} dataInfo={dataInfo} setDataInfo={setDataInfo}/>
+                <Col className="p-5 col-xl-6 col-xxl-4" style={{height: document.documentElement.scrollHeight}}> 
+                    <ChartForm props={{barChartStack, setbarChartStack, groupDataByX, setgroupDataByX, mapConfig, setmapConfig}} diagramType={diagramType} setDiagramType={setDiagramType} data={data} setData={setdata} serverData={serverData} setcolors={setcolors} colors={colors} dataInfo={dataInfo} setDataInfo={setDataInfo} />
                 </Col>
-                <Col className="p-0 border border-dark col-xl-6 col-xxl-8"> 
-                    <Diagram data={data} diagramType={diagramType} colors={colors} dataInfo={dataInfo} height={height}/>
+                <Col className="p-0 col-xl-6 col-xxl-8"> 
+                    <Diagram data={data} diagramType={diagramType} props={{mapConfig}} colors={colors} dataInfo={dataInfo} height={height} barChartStack={barChartStack}/>
                 </Col>
             </Row>
         </Container>

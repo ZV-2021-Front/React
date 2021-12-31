@@ -9,7 +9,7 @@ const LineChart=({data, colors, height, dataInfo})=>{
 	// })
     return(
         <Chart
-				appendPadding={[10, 0, 0, 10]}
+				appendPadding={[50, 50, 20, 20]}
 				autoFit
 				height={height}
 				data={data}
